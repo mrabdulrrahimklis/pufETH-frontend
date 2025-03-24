@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { useState } from "react";
 import type { Route } from "../home/+types/home";
 import { useCurrentRate } from "./hooks/useCurrentRate";
@@ -10,9 +11,38 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function CurrentRatePage() {
-  const { data: currentRate, error, isLoading } = useCurrentRate();
-  const [inputAmount, setInputAmount] = useState<string>('');
-  const [isEthToPuf, setIsEthToPuf] = useState<boolean>(false);
+  const [pufethAmount, setPufethAmount] = useState<string>("");
+  const [ethAmount, setEthAmount] = useState<string>("");
+  const [isReversed, setIsReversed] = useState(false);
+
+  const { data: currentRate, error, isLoading, refetch } = useCurrentRate();
+
+  const handlePufethChange = (value: string) => {
+    setPufethAmount(value);
+    if (currentRate && value) {
+      const result = parseFloat(value) * currentRate.ethAmount;
+      setEthAmount(result.toFixed(6));
+    } else {
+      setEthAmount("");
+    }
+  };
+
+  const handleEthChange = (value: string) => {
+    setEthAmount(value);
+    if (currentRate && value) {
+      const result = parseFloat(value) / currentRate.ethAmount;
+      setPufethAmount(result.toFixed(6));
+    } else {
+      setPufethAmount("");
+    }
+  };
+
+  const handleSwitch = () => {
+    setIsReversed(!isReversed);
+    const tempPuf = pufethAmount;
+    setPufethAmount(ethAmount);
+    setEthAmount(tempPuf);
+  };
 
   if (isLoading) {
     return (
@@ -30,62 +60,95 @@ export default function CurrentRatePage() {
     );
   }
 
-  const calculateRate = () => {
-    if (!inputAmount || !currentRate) return 0;
-    const amount = parseFloat(inputAmount);
-    
-    if (isEthToPuf) {
-      return amount / currentRate.ethAmount;
-    } else {
-      return amount * currentRate.ethAmount;
-    }
-  };
-
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-2xl font-bold mb-4">Current Rate</h2>
-        <div className="grid gap-4 mb-8">
-          <div className="border-b pb-2">
-            <span className="font-semibold">1 pufETH = </span>
-            <span>{currentRate?.ethAmount} ETH</span>
-          </div>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold">Current Rate</h2>
+          <button
+            onClick={() => refetch()}
+            className="text-blue-500 hover:text-blue-600 cursor-pointer"
+          >
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
+            </svg>
+          </button>
         </div>
 
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="text-xl font-semibold mb-4">Calculator</h3>
-          
-          <div className="flex items-center gap-4 mb-4">
-            <button
-              onClick={() => setIsEthToPuf(!isEthToPuf)}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            >
-              {isEthToPuf ? 'ETH → pufETH' : 'pufETH → ETH'}
-            </button>
-          </div>
-
-          <div className="grid gap-4">
-            <div>
+        <div className="space-y-6">
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <div className="w-full">
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                {isEthToPuf ? 'ETH Amount' : 'pufETH Amount'}
+                {isReversed ? "ETH Amount" : "pufETH Amount"}
               </label>
               <input
                 type="number"
-                value={inputAmount}
-                onChange={(e) => setInputAmount(e.target.value)}
+                value={isReversed ? ethAmount : pufethAmount}
+                onChange={(e) =>
+                  isReversed
+                    ? handleEthChange(e.target.value)
+                    : handlePufethChange(e.target.value)
+                }
                 className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Enter amount"
               />
             </div>
 
-            <div className="border-t pt-4">
-              <div className="text-lg">
-                <span className="font-semibold">Result: </span>
-                <span>
-                  {inputAmount ? calculateRate().toFixed(6) : '0'} {isEthToPuf ? 'pufETH' : 'ETH'}
-                </span>
-              </div>
+            <button
+              onClick={handleSwitch}
+              className="p-2 rounded-full hover:bg-gray-100 transform transition-transform duration-200 hover:scale-110"
+            >
+              <svg
+                className="w-6 h-6 md:rotate-90"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
+                />
+              </svg>
+            </button>
+
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                {isReversed ? "pufETH Amount" : "ETH Amount"}
+              </label>
+              <input
+                type="number"
+                value={isReversed ? pufethAmount : ethAmount}
+                onChange={(e) =>
+                  isReversed
+                    ? handlePufethChange(e.target.value)
+                    : handleEthChange(e.target.value)
+                }
+                className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Enter amount"
+              />
             </div>
+          </div>
+
+          <div className="text-sm text-gray-500 flex justify-between items-center border-t pt-4">
+            <span>
+              Last update:{" "}
+              {currentRate?.createdAt
+                ? format(new Date(currentRate.createdAt), "HH:mm:ss dd/MM/yyyy")
+                : "N/A"}
+            </span>
+            <span>1 pufETH = {currentRate?.ethAmount.toFixed(6)} ETH</span>
           </div>
         </div>
       </div>

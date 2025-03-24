@@ -33,11 +33,19 @@ function GraphPage() {
   };
 
   if (isLoading) {
-    return <div className="text-center">Loading...</div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
   }
 
   if (error) {
-    return <>Error</>;
+    return (
+      <div className="flex items-center justify-center h-screen text-red-500 text-xl">
+        Error loading data
+      </div>
+    );
   }
 
   return (

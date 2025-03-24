@@ -1,7 +1,7 @@
-import { format } from "date-fns";
 import { useState } from "react";
 import type { Route } from "../home/+types/home";
 import { useCurrentRate } from "./hooks/useCurrentRate";
+import { intlDateTimeFormat } from "~/utils/intlDateTimeFormat";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -145,7 +145,7 @@ export default function CurrentRatePage() {
             <span>
               Last update:{" "}
               {currentRate?.createdAt
-                ? format(new Date(currentRate.createdAt), "HH:mm:ss dd/MM/yyyy")
+                ? intlDateTimeFormat(currentRate.createdAt)
                 : "N/A"}
             </span>
             <span>1 pufETH = {currentRate?.ethAmount.toFixed(6)} ETH</span>

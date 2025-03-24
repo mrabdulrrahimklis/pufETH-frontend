@@ -6,7 +6,7 @@ export abstract class HttpClient {
   public static getInstance(): AxiosInstance {
     if (!HttpClient.instance) {
       HttpClient.instance = axios.create({
-        baseURL: import.meta.env.VITE_APP_API_URL,
+        baseURL: "https://dolphin-app-co772.ondigitalocean.app/",
         timeout: 60000,
       });
     }

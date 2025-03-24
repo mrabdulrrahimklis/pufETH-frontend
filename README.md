@@ -18,16 +18,16 @@
 │── /tsconfig.json
 ```
 
-React App setup with `pnpm 10.0.0` and version `node.js v22.13.1`
+React App setup with `npm 10.9.2` and version `node.js v23.10.0`
 
 Before running frontend app please run backend.
 
-After cloning the repo, run `pnpm install` to install all dependencies.
-To start application run: `pnpm run dev`.
+```
+ cp .env.example .env
+```
 
-There are two solutions available in different branches:
-- `main` with local storage
-- `feat-context-implementation` with context - more details about context at the bottom of this file.
+After cloning the repo, run ```npm install``` to install all dependencies.
+To start application run: ```npm run dev```.
 
 I used multiple popular libraries that have awesome community support for React:
 

@@ -52,6 +52,8 @@ The project follows a modular architecture with clear separation of concerns:
 - `/components`: Reusable UI components used across multiple modules
 - `/routes`: Feature-based modules containing route-specific components, hooks, and types
   - `/home`: Home page module
+  - `/currentRate`: Current Rate
+  - `/graph`: Graph
 - `/utils`: Utility functions and helpers
 - `/services`: API services and data fetching logic
 
@@ -64,15 +66,15 @@ The project follows a modular architecture with clear separation of concerns:
 
 ## Available Scripts
 
-- `pnpm install` - Install project dependencies
-- `pnpm run dev` - Start development server
-- `pnpm run build` - Build production bundle
+- `npm install` - Install project dependencies
+- `npm run dev` - Start development server
+- `npm run build` - Build production bundle
 
 ### Environment Setup
 1. Clone the repository
-2. Install dependencies: `pnpm install`
+2. Install dependencies: `npm install`
 3. Create a `.env` file based on `.env.example` (if applicable)
-4. Start development server: `pnpm run dev`
+4. Start development server: `npm run dev`
 
 Note: I usually add .env to .gitignore, but for this case, it is not needed.
 

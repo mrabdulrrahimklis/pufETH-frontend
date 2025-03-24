@@ -1,5 +1,5 @@
 import { Outlet } from "react-router";
-import { Navbar } from "~/components/nav";
+import Navbar from "~/components/Navbar";
 
 export default function CurrentRateLayout() {
   return (

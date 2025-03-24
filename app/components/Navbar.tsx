@@ -7,7 +7,7 @@ export default function Navbar() {
   const routes = [
     { path: "/", label: "Home" },
     { path: "/graph", label: "Graph" },
-    { path: "/currentRate", label: "Current Rate" },
+    { path: "/current-rate", label: "Current Rate" },
   ];
 
   return (
@@ -15,10 +15,16 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <span className="text-xl font-bold text-gray-800">PufETH</span>
+            <span className="text-xl font-bold text-gray-800">
+              <img
+                src="/puffer-logo.svg"
+                alt="pufeth-logo"
+                className="h-8 w-auto"
+                />
+            </span>
           </div>
 
-          {/* Desktop menu - visible at 640px and above */}
+          {/* Desktop menu */}
           <div className="hidden sm:flex items-center space-x-4">
             {routes.map((route) => (
               <Link
@@ -31,7 +37,7 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Mobile menu button - visible below 640px */}
+          {/* Mobile menu button */}
           <div className="sm:hidden flex items-center">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -74,10 +80,10 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu - visible below 640px */}
+      {/* Mobile menu dropdown */}
       {isMenuOpen && (
-        <div className="sm:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <div className="sm:hidden absolute w-full bg-white shadow-lg">
+          <div className="px-2 pt-2 pb-3 space-y-1">
             {routes.map((route) => (
               <Link
                 key={route.path}

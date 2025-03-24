@@ -50,9 +50,9 @@ function GraphPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex gap-6">
-        {/* Left section - 70% */}
-        <div className="w-[70%] bg-white rounded-lg shadow p-6">
+      <div className="flex flex-col sm:flex-row gap-6">
+        {/* Left section - full width on mobile, 70% on desktop */}
+        <div className="w-full sm:w-[70%] bg-white rounded-lg shadow p-6">
           <h2 className="text-2xl font-bold">pufETH Conversion Rate Timeline</h2>
           <p className="text-gray-600 mb-6">
             pufETH to ETH conversion rate over the last few hours
@@ -82,8 +82,8 @@ function GraphPage() {
           </div>
         </div>
 
-        {/* Right section - 30% */}
-        <div className="w-[30%] space-y-6">
+        {/* Right section - full width on mobile, 30% on desktop */}
+        <div className="w-full sm:w-[30%] space-y-6">
           {/* Current Rate Box */}
           <div className="bg-white rounded-lg shadow p-6">
             <h3 className="text-xl font-bold mb-2">Conversion Rate</h3>

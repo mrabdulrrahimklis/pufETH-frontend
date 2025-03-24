@@ -17,7 +17,7 @@ export const Navbar = () => {
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex shrink-0 items-center">
               <Link to={ROUTES.HOME}>
-                <img src="./public/puffer-logo.svg" width={120} />
+                <img src="./puffer-logo.svg" width={120} />
               </Link>
             </div>
             <div className="hidden sm:ml-6 sm:block">
